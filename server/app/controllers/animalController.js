@@ -18,9 +18,9 @@ const GET = async (req,res) => {
     try {
         connectDb();
         const data = await Animal.find({});
-        console.log(data);
+        //console.log(data);
         res.status(200).json({
-            message : "Hello"
+            data : data
         })
     } catch (error) {
         res.status(404).json({
@@ -31,16 +31,17 @@ const GET = async (req,res) => {
 
 const POST = async (req,res) => {
     const {name,type,color,photo} = req.body;
+    //console.log(name,type,color,photo);
     try {
         //store image first
-        const photo_url = cloudinary.uploader.upload(photo);
-
+        const photo_url = await cloudinary.uploader.upload(photo.url);
+        console.log(photo_url)
         connectDb();
         const new_animal = new Animal({
             name,
             type,
             color,
-            photo_url
+            imageUrl : photo_url.url
         })
         await new_animal.save();
         res.status(202).json({
@@ -54,5 +55,6 @@ const POST = async (req,res) => {
 }
 
 export default {
-    GET
+    GET,
+    POST
 }
