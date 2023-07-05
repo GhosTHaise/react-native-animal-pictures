@@ -20,17 +20,15 @@ const AnimalCard = ({data}) => {
     }, 1000); // Temps entre chaque action, en millisecondes
   };
 
-  const handleDelete = (_id) =>{
+  const handleDelete = async (_id) =>{
     setisDeleting(true);
     try {
-      const deleteRequest = async ()=>{
           const request = await fetch(`http://localhost:8080/api/animal/${_id}`,{
             method : "DELETE",
           });
           const message = await request.json();
           console.log(message);
-      }
-      deleteRequest()
+      
     } catch (error) {
       console.log("Unable to delete :"+error.message);
     }finally{

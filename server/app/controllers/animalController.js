@@ -57,8 +57,10 @@ const POST = async (req,res) => {
 
 const DELETE = async(req,res) => {
     const {id} = req.params;
+    //console.log(id);
     try {
-        const deleted = await Animal.findfindOneAndRemove({_id : id});
+        connectDb();
+        const deleted = await Animal.findOneAndRemove({_id : id});
         res.status(202).json({
             message : "Animal Deleted !",
             data : deleted
