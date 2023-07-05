@@ -55,7 +55,23 @@ const POST = async (req,res) => {
     }
 }
 
+const DELETE = async(req,res) => {
+    const {id} = req.params;
+    try {
+        const deleted = await Animal.findfindOneAndRemove({_id : id});
+        res.status(202).json({
+            message : "Animal Deleted !",
+            data : deleted
+        });
+    } catch (error) {
+        res.status(404).json({
+            message : error.message
+        });
+    }
+}
+
 export default {
     GET,
-    POST
+    POST,
+    DELETE,
 }
