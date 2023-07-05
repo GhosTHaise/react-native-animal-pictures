@@ -8,7 +8,7 @@ const AnimalSlice = createSlice({
             state.push(action.payload);
         },
         removeElement : (state,action) => state = state.filter((element) => element._id != action.payload),
-        setElement : (state,action) => state = action.payload
+        setElement : (state,action) => state = action.payload,
     }
 });
 

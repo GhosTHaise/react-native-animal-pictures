@@ -72,8 +72,14 @@ const DELETE = async(req,res) => {
     }
 }
 
+const PATCH = async (req,res) => {
+    const {id,name,type,color, photo} = req.body;
+    console.log(id,name,type,color, photo);
+}
+
 export default {
     GET,
     POST,
     DELETE,
+    PATCH
 }

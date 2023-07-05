@@ -6,8 +6,14 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Stack } from '@mui/system';
+import { removeElement } from '../services/AnimalReducer';
+import { setModalId,toggleModal } from '../services/AnimalModal';
+import { useDispatch } from 'react-redux';
 
 const AnimalCard = ({data}) => {
+
+  const dispatch = useDispatch();
+
   const [isDeleting, setisDeleting] = useState(false);
   
   const handlePressIn = () => {
@@ -20,6 +26,10 @@ const AnimalCard = ({data}) => {
     }, 1000); // Temps entre chaque action, en millisecondes
   };
 
+  const handleModify= (_id) =>{
+    dispatch(setModalId(_id));
+    dispatch(toggleModal());
+  }
   const handleDelete = async (_id) =>{
     setisDeleting(true);
     try {
@@ -28,7 +38,7 @@ const AnimalCard = ({data}) => {
           });
           const message = await request.json();
           console.log(message);
-      
+          dispatch(removeElement(_id));
     } catch (error) {
       console.log("Unable to delete :"+error.message);
     }finally{
@@ -68,7 +78,7 @@ const AnimalCard = ({data}) => {
       </CardContent>
     </CardActionArea>
     <CardActions>
-      <Button size="small" color="primary">
+      <Button onClick={()=>handleModify(data._id)} size="small" color="primary">
         Modify
       </Button>
       <Button onClick={()=>handleDelete(data._id)} size="small" color="error">
