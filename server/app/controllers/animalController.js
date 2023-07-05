@@ -74,7 +74,30 @@ const DELETE = async(req,res) => {
 
 const PATCH = async (req,res) => {
     const {id,name,type,color, photo} = req.body;
-    console.log(id,name,type,color, photo);
+    try {
+        connectDb();
+        const _updating = await Animal.findOne({_id : id});
+        console.log(_updating);
+        if(_updating != []){
+            _updating.name = name;
+            _updating.type = type;
+            _updating.color = color;
+            if(photo != null){
+                const photo_url = await cloudinary.uploader.upload(photo.url);
+                console.log(photo_url)
+                _updating.photo = photo_url.url
+            }
+            await _updating.save();
+            res.status(202).json({
+                message : "Animal Update !",
+                data : _updating
+            });
+        }
+    } catch (error) {
+        res.status(404).json({
+            message : error.message
+        });
+    }
 }
 
 export default {

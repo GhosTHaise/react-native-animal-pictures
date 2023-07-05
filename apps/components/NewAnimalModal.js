@@ -11,7 +11,7 @@ import { MuiColorInput } from 'mui-color-input'
 import { MuiFileInput } from 'mui-file-input'
 import CircularProgress from '@mui/material/CircularProgress';
 import { toggleModal,setModalId } from "../services/AnimalModal";
-import { addElement } from "../services/AnimalReducer";
+import { addElement,updateElement } from "../services/AnimalReducer";
 import { useDispatch,useSelector } from "react-redux";
 
 const style = {
@@ -66,7 +66,7 @@ const NewAnimalModal = () => {
 
   const handlePatch = async () => {
     setisSaving(true);
-    if(!name || !type || !photo || !color){
+    if(!name || !type || !color){
         alert("all field must complited !")
         return ;
     }
@@ -88,8 +88,9 @@ const NewAnimalModal = () => {
     const response = await request.json();
     console.log(response);
     if(response.data){
-        dispatch(addElement(response.data));
+        dispatch(updateElement(response.data));
         dispatch(toggleModal());
+        dispatch(setModalId(""));
     }
     } catch (error) {
         console.log("Unable to save "+error.message);
@@ -123,6 +124,7 @@ const NewAnimalModal = () => {
     if(response.data){
         dispatch(addElement(response.data));
         dispatch(toggleModal());
+        dispatch(setModalId(""))
     }
     } catch (error) {
         console.log("Unable to save "+error.message);
@@ -175,7 +177,7 @@ const NewAnimalModal = () => {
                                 <Button
                                     color="warning"
                                     variant="contained"
-                                    onClick={handleClick}
+                                    onClick={handlePatch}
                                     sx={{paddingX : 2,paddingY : 1}}
                                 >
                                     Update
