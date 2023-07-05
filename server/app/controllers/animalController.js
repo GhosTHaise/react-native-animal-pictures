@@ -43,9 +43,10 @@ const POST = async (req,res) => {
             color,
             imageUrl : photo_url.url
         })
-        await new_animal.save();
+        const saved_animal = await new_animal.save();
         res.status(202).json({
-            message : "New Animal Saved !"
+            message : "New Animal Saved !",
+            data : saved_animal
         });
     } catch (error) {
         res.status(404).json({
